@@ -1,0 +1,6 @@
+org.springframework.boot.autoconfiguration.EnableAutoConfiguration=\
+com.example.bootstartdemo.configuration.BackgroundConfiguration
+org.springframework.boot.env.EnvironmentPostProcessor=\
+com.example.bootstartdemo.configuration.analyzer.PropertyGuardEnvironmentPostProcessor
+org.springframework.boot.diagnostics.FailureAnalyzer=\
+com.example.bootstartdemo.configuration.analyzer.BackgroundTaskPropertyFailureAnalyzer
