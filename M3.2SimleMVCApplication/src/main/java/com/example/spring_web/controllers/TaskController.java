@@ -1,6 +1,8 @@
 package com.example.spring_web.controllers;
 
 import com.example.spring_web.models.Task;
+import com.example.spring_web.services.TaskService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,12 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class TaskController {
-    private final List<Task> tasks = new ArrayList<>();
+    private final TaskService taskService;
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("tasks", tasks);
+        model.addAttribute("tasks", taskService.findAll());
         return "index";
     }
 
@@ -29,14 +32,13 @@ public class TaskController {
 
     @PostMapping("/task/create")
     public String createTask(@ModelAttribute Task task) {
-        task.setId(System.currentTimeMillis());
-        tasks.add(task);
+        taskService.save(task);
         return "redirect:/";
     }
 
     @GetMapping("/task/edit/{id}")
     public String showEditForm(@PathVariable long id, Model model) {
-        Task task = findTaskById(id);
+        Task task = taskService.findById(id);
         if (task != null) {
             model.addAttribute("task", task);
             return "edit";
@@ -46,28 +48,13 @@ public class TaskController {
 
     @PostMapping("/task/edit")
     public String editTask(@ModelAttribute Task task) {
-        Task extendsTask = findTaskById(task.getId());
-        if (extendsTask != null) {
-            extendsTask.setTitle(task.getTitle());
-            extendsTask.setDescription(task.getDescription());
-            extendsTask.setPriority(task.getPriority());
-        }
+        taskService.update(task);
         return "redirect:/";
     }
 
     @GetMapping("/task/delete/{id}")
     public String deleteTask(@PathVariable long id) {
-        Task task = findTaskById(id);
-        if (task != null) {
-            tasks.remove(task);
-        }
+        taskService.deleteById(id);
         return "redirect:/";
-    }
-
-    private Task findTaskById(long id) {
-        return tasks.stream()
-                .filter(t -> t.getId() == id)
-                .findFirst()
-                .orElse(null);
     }
 }
