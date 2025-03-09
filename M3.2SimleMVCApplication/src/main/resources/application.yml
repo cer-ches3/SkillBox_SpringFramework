@@ -1,7 +1,9 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/tasks
-    user: sergey
+    username: postgres
     password: postgres
-hikari:
-  schema: tasks_schema
+    hikari:
+      schema: tasks_schema
+
+logging.level.root: DEBUG

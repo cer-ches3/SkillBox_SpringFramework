@@ -13,17 +13,13 @@ import java.util.List;
 
 @Controller
 public class SimpleController {
-
     @GetMapping("/example")
     public String index(Model model) {
-        model.addAttribute("name", "Sergey Chesnokov");
-
+        model.addAttribute("name", "Ivan Ivanov");
         List<String> departments = Arrays.asList("South", "West", "Center");
         model.addAttribute("departments", departments);
-
-        User user = new User("Sergey", "segey@mail.ru");
+        User user = new User("Ivan", "ivan@someemail.com");
         model.addAttribute("user", user);
-
         return "example/index";
     }
 
@@ -33,20 +29,21 @@ public class SimpleController {
         return "redirect:/example";
     }
 
-    @GetMapping("example/header")
-    public String header() {
-        return "/example/fragments/header :: header";
+    @GetMapping("/example/footer")
+    public String footer() {
+        return "example/fragments/footer :: footer";
     }
 
-    @GetMapping("example/footer")
-    public String footer() {
-        return "/example/fragments/footer :: footer";
+    @GetMapping("/example/header")
+    public String header() {
+        return "example/fragments/header :: header";
     }
 
     @Data
     @AllArgsConstructor
     class User {
-        String name;
-        String email;
+        private String name;
+        private String email;
+
     }
 }

@@ -1,7 +1,7 @@
 package com.example.spring_web.controllers;
 
-import com.example.spring_web.models.Task;
-import com.example.spring_web.services.TaskService;
+import com.example.spring_web.model.Task;
+import com.example.spring_web.service.TaskServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,13 +10,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Controller
 @RequiredArgsConstructor
 public class TaskController {
-    private final TaskService taskService;
+    private final TaskServiceImpl taskService;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -37,7 +34,7 @@ public class TaskController {
     }
 
     @GetMapping("/task/edit/{id}")
-    public String showEditForm(@PathVariable long id, Model model) {
+    public String showEditForm(@PathVariable Long id, Model model) {
         Task task = taskService.findById(id);
         if (task != null) {
             model.addAttribute("task", task);
@@ -52,9 +49,11 @@ public class TaskController {
         return "redirect:/";
     }
 
+
     @GetMapping("/task/delete/{id}")
-    public String deleteTask(@PathVariable long id) {
+    public String deletTask(@PathVariable Long id) {
         taskService.deleteById(id);
         return "redirect:/";
     }
+
 }
