@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@Primary
+//@Primary
 @RequiredArgsConstructor
 @Slf4j
 public class DataBaseTaskRepository implements TaskRepository {
